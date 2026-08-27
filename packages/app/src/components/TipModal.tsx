@@ -6,6 +6,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X, Loader2, CheckCircle2, AlertCircle, ExternalLink, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useWallet, FreighterNotInstalledError, WalletNotConnectedError } from "@/hooks/useWallet";
+import { usePaymentFlow } from "@/context/PaymentFlowContext";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_NETWORK_PASSPHRASE = "Test SDF Network ; September 2015";
@@ -19,14 +20,23 @@ type TxStatus = "idle" | "signing" | "pending" | "success" | "error";
 type ErrorType = "freighter_missing" | "insufficient_balance" | "network_error" | "unknown";
 
 interface Props {
-  workerName: string;
-  walletAddress: string;
+  workerName?: string;
+  walletAddress?: string;
   trigger?: ReactNode;
 }
 
-export default function TipModal({ workerName, walletAddress, trigger }: Props) {
+export default function TipModal({ workerName: workerNameProp, walletAddress: walletAddressProp, trigger }: Props) {
   const t = useTranslations("tip");
+  const paymentFlow = usePaymentFlow();
+  const workerName = workerNameProp ?? paymentFlow?.workerName;
+  const walletAddress = walletAddressProp ?? paymentFlow?.walletAddress;
   const { publicKey, networkPassphrase, connect, signTransaction } = useWallet();
+
+  if (!workerName || !walletAddress) {
+    throw new Error(
+      "TipModal requires workerName/walletAddress via props or a PaymentFlowProvider ancestor.",
+    );
+  }
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [selectedToken, setSelectedToken] = useState("XLM");
