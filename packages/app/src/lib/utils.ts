@@ -52,6 +52,19 @@ export function formatNumber(num: number, opts?: Intl.NumberFormatOptions): stri
 }
 
 /**
+ * Format an ISO timestamp as a short time string, e.g. "3:45 PM".
+ * Centralises the inline toLocaleTimeString calls from MessageThread.tsx.
+ * Closes #1209
+ */
+export function formatTime(iso: string | Date, opts?: Intl.DateTimeFormatOptions): string {
+  return new Date(iso).toLocaleTimeString(_locale, {
+    hour: "numeric",
+    minute: "2-digit",
+    ...opts,
+  });
+}
+
+/**
  * Format an ISO timestamp as a relative human-readable string,
  * e.g. "Just now", "5m ago", "3h ago", "2d ago", or a localised date
  * for anything older than `oldAfterDays` (default: 7 days).

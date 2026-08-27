@@ -4,7 +4,7 @@ import { useCallback, useEffect, useId, useState } from "react";
 import { Download, ExternalLink, FileText } from "lucide-react";
 import { getInvoice } from "@/lib/api/payments";
 import { formatErrorMessage } from "@/lib/errors";
-import { cn } from "@/lib/utils";
+import { cn, formatDate as sharedFormatDate } from "@/lib/utils";
 import ErrorState from "@/components/ErrorState";
 import type { Invoice, InvoiceStatus } from "@/types";
 
@@ -56,11 +56,7 @@ export function formatAmount(amount: number, currency: string): string {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  return sharedFormatDate(iso);
 }
 
 /**
