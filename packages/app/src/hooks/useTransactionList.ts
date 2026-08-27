@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const HORIZON = "https://horizon-testnet.stellar.org";
+import { HORIZON_URL } from "@/config/stellar";
+
+const HORIZON = HORIZON_URL;
 const DEFAULT_PAGE_SIZE = 10;
 
 /** Horizon caps a payments page at 200 records. */

@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils";
 import ErrorState from "@/components/ErrorState";
 import type { Invoice, InvoiceStatus } from "@/types";
 
-const STELLAR_EXPLORER = "https://stellar.expert/explorer/testnet/tx";
+import { EXPLORER_TX_BASE } from "@/config/stellar";
+
+const STELLAR_EXPLORER = EXPLORER_TX_BASE;
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
   draft: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",

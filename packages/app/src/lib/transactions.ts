@@ -16,6 +16,11 @@ import * as StellarSdk from "@stellar/stellar-sdk";
 // Constants
 // ---------------------------------------------------------------------------
 
+/**
+ * Network configuration table.  The URLs here are canonical defaults;
+ * runtime URL selection is handled by src/config/stellar.ts which reads
+ * NEXT_PUBLIC_STELLAR_* environment variables and may override these.
+ */
 export const NETWORKS = {
   TESTNET: {
     passphrase: "Test SDF Network ; September 2015",
