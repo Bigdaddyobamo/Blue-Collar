@@ -4,11 +4,13 @@ import { useCallback, useEffect, useId, useState } from "react";
 import { Download, ExternalLink, FileText } from "lucide-react";
 import { getInvoice } from "@/lib/api/payments";
 import { formatErrorMessage } from "@/lib/errors";
-import { cn } from "@/lib/utils";
+import { cn, formatDate as sharedFormatDate } from "@/lib/utils";
 import ErrorState from "@/components/ErrorState";
 import type { Invoice, InvoiceStatus } from "@/types";
 
-const STELLAR_EXPLORER = "https://stellar.expert/explorer/testnet/tx";
+import { EXPLORER_TX_BASE } from "@/config/stellar";
+
+const STELLAR_EXPLORER = EXPLORER_TX_BASE;
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
   draft: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
@@ -54,11 +56,7 @@ export function formatAmount(amount: number, currency: string): string {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  return sharedFormatDate(iso);
 }
 
 /**
